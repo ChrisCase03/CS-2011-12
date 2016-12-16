@@ -1,0 +1,173 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+
+public class multable extends Application {
+
+	public void start(Stage primaryStage) throws Exception {
+		List<CustomLabel> labelvals = new ArrayList<>();
+		BorderPane mt = new BorderPane();
+
+		TextField answer = new TextField();
+		
+		Scene sc = new Scene(mt,600, 650);
+		sc.getStylesheets().add("style.css");
+
+		GridPane gp = new GridPane();
+		gp.getStyleClass().add("grid");
+
+		 HBox header = new HBox(10);
+		 header.getChildren().add(answer);
+		 Label userprompt = new Label("Enter a number");
+		 header.getChildren().add(userprompt);
+		
+		Button answerbutton = new Button("Answer");
+		answerbutton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+
+			public void handle(Event event) {
+				int userchoice = Integer.parseInt(answer.getText());
+				
+				for (CustomLabel starter : labelvals) {
+					starter.getStyleClass().remove("rightchoice");
+					}
+					for (CustomLabel starter : labelvals) {
+						if (starter.correctProd(userchoice)) {
+							starter.getStyleClass().add("rightchoice");
+				}
+			}
+			}
+		});
+		header.getChildren().add(answerbutton);
+		Label[][] sides = new Label[11][11];
+		for (int rowNum = 0; rowNum < 11; rowNum++)
+			for (int colNum = 0; colNum < 11; colNum++) {
+				CustomLabel starter = new CustomLabel(rowNum, colNum,(rowNum*colNum));
+				labelproblems(starter, colNum, rowNum);
+				sides[rowNum][colNum] = starter;
+				gp.add(starter, colNum, rowNum);
+
+				labelvals.add(starter);
+			}
+
+		mt.setTop(header);
+		
+		mt.setCenter(gp);
+		primaryStage.setTitle("Reverse Multiplication Table");
+		primaryStage.setScene(sc);
+		primaryStage.show();
+
+	}
+
+	public void labelproblems(final Label starter, final int colNum, final int rowNum) {
+
+		String rows = String.valueOf(rowNum);
+		String columns = String.valueOf(colNum);
+
+		if (rowNum == 0 || colNum == 0) {
+			starter.getStyleClass().add("topRow");
+			if (rowNum == 0)
+				starter.setText(columns);
+			else if (colNum == 0)
+				starter.setText(rows);
+		} else {
+			starter.setText(rows + " * " + columns);
+			starter.getStyleClass().add("regular");
+		}
+	}
+
+	private class CustomLabel extends Label {
+
+		int rowNum;
+		int colNum;
+		int product;
+
+		public CustomLabel(int rowNum, int colNum,int product) {
+			this.rowNum = rowNum;
+			this.colNum = colNum;
+			this.product = rowNum * colNum;
+			setText(rowNum + " * " + colNum);
+		}
+
+		public boolean correctProd(int prodValue) {
+			return product == prodValue;
+		}
+	
+	
+	}
+
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+
+}
+/////////
+
+/*@CHARSET "ISO-8859-1";*/
+
+.pane{
+	
+}
+
+.grid{
+	-fx-background-color:purple;
+}
+
+.topRow{	
+	-fx-background-color:yellow;
+	-fx-font-size:300%;
+   
+}
+
+
+.answer{
+	
+  -fx-width:50px;
+   
+  -fx-padding:10px;
+}
+
+.regular{
+-fx-background-color:black;
+-fx-border-style:solid;
+-fx-stroke:white;
+-fx-border-color:white;
+   -fx-font-size:150%;
+   -fx-text-fill:white;
+    -fx-padding:2px;
+    
+    }
+    
+    .rightchoice{
+   -fx-background-color:green;
+    }
+    
+    
+    .button{
+    -fx-width :150px;
+    }
+    .default{
+    -fx-background-color:black;
+-fx-border-style:solid;
+-fx-stroke:white;
+-fx-border-color:white;
+    }
+    
+    

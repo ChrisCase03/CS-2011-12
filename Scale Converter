@@ -1,0 +1,102 @@
+
+public interface ScaleConverter {
+public double convertTemperature(double tempIn);
+public double convertDistance (double distanceIn);
+public double convertWeight(double weightIn);
+	
+}
+
+///////
+
+public class EnglishToMetricConverter implements ScaleConverter {
+private double tempCelsius;
+private double distanceKm;
+private double weightKg;
+	public EnglishToMetricConverter(){
+		
+	}
+	@Override
+	public double convertTemperature(double tempIn) {
+		  tempCelsius = (tempIn-32)*5/9;
+		
+		System.out.println("The temperature in Celsius is "+tempCelsius);
+		return tempCelsius;
+	}
+
+	@Override
+	public double convertDistance(double distanceIn) {
+		 distanceKm = distanceIn/.609;
+		System.out.println("The distance in KM is "+distanceKm);
+		 return distanceKm;
+	}
+
+	@Override
+	public double convertWeight(double weightIn) {
+		 weightKg= weightIn/(2.2);
+		System.out.println("The weight in KG is " + weightKg);
+		 return weightKg;
+	}
+
+}
+///////
+
+public class MetricToEnglishConverter implements ScaleConverter {
+private double tempFahr;
+private double distanceMiles;
+private double weightLbs;
+	
+	public MetricToEnglishConverter(){
+	
+}
+	@Override
+	public double convertTemperature(double tempIn) {
+		 tempFahr = (tempIn*9/5)+32;
+		System.out.println("The temperature in Fahrenheit is "+ tempFahr);
+		 return tempFahr;
+	}
+
+	@Override
+	public double convertDistance(double distanceIn) {
+		 distanceMiles = distanceIn*(.609);
+		System.out.println("The distance in miles is " + distanceMiles);
+		 return distanceMiles;
+	}
+
+	@Override
+	public double convertWeight(double weightIn) {
+		 weightLbs= weightIn *(2.2);
+		System.out.println("The weight in Lbs is " + weightLbs);
+		 return weightLbs;
+	}
+
+}
+////////////
+
+
+
+public class Driver {
+
+
+public Driver(){
+	
+}
+public static void main(String[] args) {
+	EnglishToMetricConverter English = new EnglishToMetricConverter();
+	MetricToEnglishConverter Metric = new MetricToEnglishConverter();
+
+	
+	
+	English.convertWeight(60);
+	English.convertWeight(78);
+	Metric.convertWeight(27.27);
+	Metric.convertWeight(35.45);
+	English.convertDistance(24);
+	English.convertDistance(50);
+	Metric.convertDistance(39);
+	Metric.convertDistance(82);
+	Metric.convertTemperature(100);
+	Metric.convertTemperature(0);
+	English.convertTemperature(212);
+	English.convertTemperature(32);
+}
+}
